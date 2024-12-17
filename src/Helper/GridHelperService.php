@@ -960,7 +960,7 @@ class GridHelperService
         }
 
         return '(
-            (`path` != "' . $path . '/" AND ' . $queryColumn .  ' != "' . $leaf . '")
+            NOT (`path` = "' . $path . '/" AND ' . $queryColumn .  ' = "' . $leaf . '")
             AND
             `path` NOT LIKE "' . $fullpath . '/%"
         )';
@@ -995,7 +995,9 @@ class GridHelperService
                     //if any allowed child is found, the current folder can be listed but its content is still blocked
                     $onlyChildren = true;
                 }
-                $forbiddenPathSql[] = $this->optimizedConcatNotLike($forbiddenPath, $onlyChildren, $type) . $exceptions;
+                $forbiddenPathSql[] =
+                    '(' . $this->optimizedConcatNotLike($forbiddenPath, $onlyChildren, $type) . $exceptions . ')'
+                ;
             }
             foreach ($elementPaths['allowed'] as $allowedPaths) {
                 $allowedPathSql[] = $this->optimizedConcatLike($allowedPaths, $type);
