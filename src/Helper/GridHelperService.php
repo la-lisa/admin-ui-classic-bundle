@@ -962,7 +962,7 @@ class GridHelperService
         return '(
             (`path` != "' . $path . '/" AND ' . $queryColumn .  ' != "' . $leaf . '")
             AND
-            `path` NOT LIKE "' . $fullpath . '%"
+            `path` NOT LIKE "' . $fullpath . '/%"
         )';
 
     }
