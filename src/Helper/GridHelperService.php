@@ -936,7 +936,7 @@ class GridHelperService
         return '(
             (`path` = "' . $path . '/" AND ' . $queryColumn .  ' = "' . $leaf . '")
             OR
-            `path` LIKE "' . $fullpath . '/%"
+            `path` LIKE "' . $fullpath . '%"
         )';
     }
 
@@ -962,7 +962,7 @@ class GridHelperService
         return '(
             (`path` != "' . $path . '/" AND ' . $queryColumn .  ' != "' . $leaf . '")
             AND
-            `path` NOT LIKE "' . $fullpath . '/%"
+            `path` NOT LIKE "' . $fullpath . '%"
         )';
 
     }
@@ -1005,11 +1005,11 @@ class GridHelperService
             // the result would be like `(((path1 OR path2) AND (not_path3 AND not_path4)))`
             $forbiddenAndAllowedSql = '(';
 
-            if ($allowedPathSql || $forbiddenPathSql) {
+            if (!empty($allowedPathSql) || !empty($forbiddenPathSql)) {
                 $forbiddenAndAllowedSql .= '(';
                 $forbiddenAndAllowedSql .= $allowedPathSql ? '( ' . implode(' OR ', $allowedPathSql) . ' )' : '';
 
-                if ($forbiddenPathSql) {
+                if (!empty($forbiddenPathSql)) {
                     //if $allowedPathSql "implosion" is present, we need `AND` in between
                     $forbiddenAndAllowedSql .= $allowedPathSql ? ' AND ' : '';
                     $forbiddenAndAllowedSql .= implode(' AND ', $forbiddenPathSql);
